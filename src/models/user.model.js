@@ -24,8 +24,14 @@ const userSchema = new Schema(
             minLength: 6,
         },
         avatar: {
-            type: String,
-            default: "",
+            url: {
+                type: String,
+                default: "",
+            },
+            public_id: {
+                type: String,
+                default: "",
+            }
         }
     },
     {
@@ -42,7 +48,7 @@ userSchema.pre("save", async function (next) {
 
 });
 
-userSchema.methods.isPasswordCorrect = async function(pwd) {
+userSchema.methods.isPasswordCorrect = async function (pwd) {
     return await bcrypt.compare(pwd, this.password);
 }
 

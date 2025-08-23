@@ -1,6 +1,6 @@
 import multer from "multer";
 
-const uploadDirectory = "../../public/temp";
+const uploadDirectory = "./public/temp";
 
 const storage = multer.diskStorage({
 

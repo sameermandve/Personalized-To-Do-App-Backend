@@ -3,6 +3,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { User } from "../models/user.model.js";
 import { generateToken } from "../utils/generateToken.js";
+import { uploadOnCloudinary, destroyOldImage } from "../utils/cloudinary.js";
 
 const isValidEmail = (email) => {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -73,7 +74,7 @@ const loginUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
 
     if (
-        [email, password].some((field) => field?.trim() === "" )
+        [email, password].some((field) => field?.trim() === "")
     ) {
         throw new ApiError(400, "All fields are required!");
     }
@@ -132,6 +133,52 @@ const logoutUser = asyncHandler(async (req, res) => {
 
 });
 
+const uploadAvatar = asyncHandler(async (req, res) => {
+
+    const avatarLocalPath = req.file?.path;
+    const oldPublicId = req.user?.avatar?.public_id;
+
+    if (!avatarLocalPath) {
+        throw new ApiError(404, "Avatar file is missing");
+    }
+
+    const newAvatar = await uploadOnCloudinary(avatarLocalPath);
+
+    if (!newAvatar.url || !newAvatar.public_id) {
+        throw new ApiError(500, "Error while uploading avatar");
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(
+        req.user?._id,
+        {
+            $set: {
+                avatar: {
+                    url: newAvatar.url,
+                    public_id: newAvatar.public_id,
+                }
+            }
+        },
+        {
+            new: true,
+        }
+    ).select("-password");
+
+    if (oldPublicId) {
+        destroyOldImage(oldPublicId);
+    }
+
+    return res
+        .status(201)
+        .json(
+            new ApiResponse(
+                201,
+                updatedUser,
+                "Avatar uploaded successfully"
+            )
+        );
+
+});
+
 const checkUserAuth = asyncHandler(async (req, res) => {
 
     return res
@@ -151,4 +198,5 @@ export {
     loginUser,
     logoutUser,
     checkUserAuth,
+    uploadAvatar,
 }
