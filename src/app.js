@@ -25,12 +25,15 @@ app.use(cookieParser());
 
 // --- Route Handling ---
 
-import { authUser } from "./routes/user.route.js";
+import { authUser } from "./routes/userRouter.route.js";
+import { listRouter } from "./routes/listRouter.route.js";
+import { todoRouter } from "./routes/todoRouter.route.js";
 
 import { ApiError } from "./utils/ApiError.js";
 
 // Any request to a URL starting with "/api/v1/users" will be handled by the `authUser` router.
 app.use("/api/v1/users", authUser);
+app.use("/api/v1/lists", listRouter);
 
 
 const errorHandler = async (err, req, res, next) => {
