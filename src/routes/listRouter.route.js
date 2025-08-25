@@ -6,7 +6,7 @@ import { todoRouter } from "./todoRouter.route.js";
 
 const listRouter = Router();
 
-listRouter.use("/:listid/todos", todoRouter);
+listRouter.use("/:listId/todos", todoRouter);
 
 listRouter.route("/")
     .get(verifyJWT, getAllLists)

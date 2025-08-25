@@ -8,8 +8,9 @@ const todoSchema = new Schema(
         },
         description: {
             type: String,
+            default: "",
         },
-        list_id: {
+        listId: {
             type: Schema.Types.ObjectId,
             ref: "List",
             required: true,
@@ -17,14 +18,14 @@ const todoSchema = new Schema(
         },
         priority: {
             type: String,
-            enum: ["HIGH", "MEDIUM", "LOW"],
+            enum: ["HIGH", "MEDIUM", "LOW", ""],
             default: "MEDIUM",
         },
         due_date: {
             type: Date,
             required: true,
         },
-        complete: {
+        isComplete: {
             type: Boolean,
             default: false,
         }

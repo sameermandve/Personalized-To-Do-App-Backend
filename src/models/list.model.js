@@ -13,7 +13,7 @@ const listSchema = new Schema(
             required: true,
             index: true,
         },
-        todo: {
+        todos: {
             type: [
                 {
                     type: Schema.Types.ObjectId,

@@ -36,11 +36,10 @@ const getListById = asyncHandler(async (req, res) => {
     const { listId } = req.params;
     const userId = req.user?._id;
 
-    // const selectedList = await List.find({$and: [{_id: listId, userId: userId}]});
     const selectedList = await List.findOne({
         _id: listId,
         userId: userId,
-    }); // TODO: add this before semicolon .populate("todos")
+    }).populate("todos");
     
     if (!selectedList) {
         throw new ApiError(404, "List not found");
@@ -55,10 +54,6 @@ const getListById = asyncHandler(async (req, res) => {
                 "Selected list fetched successfully"
             )
         );
-
-    // return res
-    //     .status(200)
-    //     .json(selectedList);
 
 });
 
