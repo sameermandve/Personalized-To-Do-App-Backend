@@ -193,10 +193,43 @@ const checkUserAuth = asyncHandler(async (req, res) => {
 
 });
 
+const deleteUserCompletely = asyncHandler(async (req, res) => {
+
+    const userId = req.user?._id;
+    const oldPublicId = req.user?.avatar?.public_id;
+
+    if (!userId) {
+        throw new ApiError("User does not exist");
+    }
+
+    const deleteUser = await User.findByIdAndDelete(userId);
+
+    if (oldPublicId) {
+        destroyOldImage(oldPublicId);
+    }
+
+    if (!deleteUser) {
+        throw new ApiError(404, "User does not exist");
+    }
+
+    return res
+        .status(200)
+        .clearCookie("jwt")
+        .json(
+            new ApiResponse(
+                200,
+                {},
+                "User deleted successfully"
+            )
+        );
+
+});
+
 export {
     registerUser,
     loginUser,
     logoutUser,
     checkUserAuth,
     uploadAvatar,
+    deleteUserCompletely,
 }
