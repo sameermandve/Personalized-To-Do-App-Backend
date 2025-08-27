@@ -49,11 +49,11 @@ You need to have Node.js and npm installed on your machine. You will also need a
     ```env
     MONGO_URI=your_mongodb_connection_string
     JWT_SECRET=your_jwt_secret_key
-    PORT=5000
+    PORT=8000
     ```
     * `MONGO_URI`: Your connection string for the MongoDB database.
     * `JWT_SECRET`: A secret key for signing JWTs.
-    * `PORT`: The port on which the server will run (defaults to 5000 if not specified).
+    * `PORT`: The port on which the server will run (defaults to 8000 if not specified).
 
 ### Usage
 
