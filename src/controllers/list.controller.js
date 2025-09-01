@@ -5,16 +5,21 @@ import { List } from "../models/list.model.js";
 
 const newList = asyncHandler(async (req, res) => {
 
-    const { listName } = req.body;
+    const { listName, listDesc } = req.body;
     const user = req.user?._id;
 
     if (!listName?.trim()) {
         throw new ApiError(400, "List name cannot be empty");
     }
 
+    if (!listDesc?.trim()) {
+        throw new ApiError(400, "List description cannot be empty");
+    }
+
     const newCreatedList = new List({
         userId: user,
         listName,
+        listDesc,
     });
 
     await newCreatedList.save();

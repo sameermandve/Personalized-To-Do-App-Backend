@@ -13,6 +13,10 @@ const listSchema = new Schema(
             required: true,
             index: true,
         },
+        listDesc: {
+            type: String,
+            required: true,
+        },
         todos: {
             type: [
                 {
