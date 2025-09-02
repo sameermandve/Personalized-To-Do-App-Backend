@@ -35,4 +35,11 @@ const todoSchema = new Schema(
     }
 );
 
+todoSchema.pre("save", function (next) {
+    if (this.due_date) {
+        this.due_date.setUTCHours(0, 0, 0, 0);
+    }
+    next();
+});
+
 export const Todo = mongoose.model("Todo", todoSchema);
