@@ -28,14 +28,14 @@ const verifyJWT = asyncHandler(async (req, _, next) => {
         // console.log("User: ", user);
 
         if (!user) {
-            throw new ApiError(401, "User not found");
+            throw new ApiError(404, "User not found");
         }
 
         req.user = user;
         next();
 
     } catch (error) {
-        throw new ApiError(401, error?.message || "Invalid access token");
+        throw new ApiError(500, error?.message || "Invalid access token");
     }
 
 });

@@ -69,10 +69,10 @@ const getAllLists = asyncHandler(async (req, res) => {
     const fetchAllLists = await List.find({ userId: loggedInUser });
 
     return res
-        .status(201)
+        .status(200)
         .json(
             new ApiResponse(
-                201,
+                200,
                 fetchAllLists,
                 "Fetched all available list of user successfully"
             )

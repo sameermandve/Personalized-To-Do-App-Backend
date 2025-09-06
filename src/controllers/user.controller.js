@@ -84,28 +84,28 @@ const loginUser = asyncHandler(async (req, res) => {
     }
 
     if (password.length < 6) {
-        throw new ApiError(400, "Invalid credentials");
+        throw new ApiError(404, "Invalid credentials");
     }
 
     const user = await User.findOne({ email });
 
     if (!user) {
-        throw new ApiError(400, "Invalid credentials");
+        throw new ApiError(404, "Invalid credentials");
     }
 
     const isValidPassword = await user.isPasswordCorrect(password);
 
     if (!isValidPassword) {
-        throw new ApiError(400, "Invalid credentials");
+        throw new ApiError(404, "Invalid credentials");
     }
 
     generateToken(user._id, res);
 
     return res
-        .status(201)
+        .status(200)
         .json(
             new ApiResponse(
-                201,
+                200,
                 {
                     _id: user._id,
                     username: user.username,
@@ -121,11 +121,11 @@ const loginUser = asyncHandler(async (req, res) => {
 const logoutUser = asyncHandler(async (req, res) => {
 
     return res
-        .status(201)
+        .status(200)
         .cookie("jwt", "", { maxAge: 0 })
         .json(
             new ApiResponse(
-                201,
+                200,
                 {},
                 "User logged out successfully"
             )
@@ -168,10 +168,10 @@ const uploadAvatar = asyncHandler(async (req, res) => {
     }
 
     return res
-        .status(201)
+        .status(200)
         .json(
             new ApiResponse(
-                201,
+                200,
                 updatedUser,
                 "Avatar uploaded successfully"
             )
@@ -182,10 +182,10 @@ const uploadAvatar = asyncHandler(async (req, res) => {
 const checkUserAuth = asyncHandler(async (req, res) => {
 
     return res
-        .status(201)
+        .status(200)
         .json(
             new ApiResponse(
-                201,
+                200,
                 req.user,
                 "User data fetched successfully",
             )
