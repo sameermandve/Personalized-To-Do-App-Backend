@@ -2,6 +2,8 @@
 
 This repository contains the backend server for the Personalized To-Do App. It is a RESTful API built with Node.js and Express, designed to handle user authentication, task management, and data persistence with a MongoDB database.
 
+**Personalized To-Do App (Frontend)** - [Link](https://github.com/sameermandve/Personalized-To-Do-App-Frontend)
+
 ## Key Features
 
 -   **User Authentication**: Secure user registration and login using JSON Web Tokens (JWT).
